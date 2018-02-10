@@ -20,6 +20,12 @@ public class TacticsMove : MonoBehaviour {
 
 	float halfHeight = 0;
 
+	bool fallingDown = false;
+	bool jumpingUp = false;
+	bool movingEdge = false;
+	Vector3 jumpTarget;
+	public float jumpVelocity = 4.5f;
+
 	protected void Init(){
 		tiles = GameObject.FindGameObjectsWithTag("Tile");
 
@@ -96,9 +102,16 @@ public class TacticsMove : MonoBehaviour {
 
 			if(Vector3.Distance(transform.position, target) >= 0.05f){
 
-				CalculateHeading(target);
-				SetHorizontalVelocity();
+				bool jump = transform.position.y != target.y;
 
+				if(jump){
+					Jump(target);
+				}
+				else{
+					CalculateHeading(target);
+					SetHorizontalVelocity();
+				}
+				//locomotion
 				transform.forward = heading;
 				transform.position += velocity * Time.deltaTime;
 			}
@@ -134,5 +147,82 @@ public class TacticsMove : MonoBehaviour {
 
 	void SetHorizontalVelocity(){
 		velocity = heading * moveSpeed;
+	}
+
+	void Jump(Vector3 target){
+		if(fallingDown){
+			FallDownward(target);
+		}
+		else if(jumpingUp){
+			JumpUpward(target);
+		}
+		else if(movingEdge){
+			MoveToEdge();
+		}
+		else{
+			PrepareJump(target);
+		}
+	}
+
+	void PrepareJump(Vector3 target){
+		float targetY = target.y;
+		target.y = transform.position.y;
+
+		CalculateHeading(target);
+
+		if(transform.position.y > targetY){
+			fallingDown = false;
+			jumpingUp = false;
+			movingEdge = true;
+
+			jumpTarget = transform.position + (target - transform.position) / 2f;
+		}
+		else{
+			fallingDown = false;
+			jumpingUp = true;
+			movingEdge = false;
+
+			velocity = heading * moveSpeed / 3f;
+
+			float difference = targetY - transform.position.y;
+
+			velocity.y = jumpVelocity * (0.5f + difference / 2.0f);
+		}
+	}
+
+	void FallDownward(Vector3 target){
+		velocity += Physics.gravity * Time.deltaTime;
+
+		if(transform.position.y <= target.y){
+			fallingDown = false;
+
+			Vector3 p = transform.position;
+			p.y = target.y;
+			transform.position = p;
+
+			velocity = new Vector3();
+		}
+	}
+
+	void JumpUpward(Vector3 target){
+		velocity += Physics.gravity * Time.deltaTime;
+
+		if(transform.position.y > target.y){
+			jumpingUp = false;
+			fallingDown = true;
+		}
+	}
+
+	void MoveToEdge(){
+		if(Vector3.Distance(transform.position, jumpTarget) >= 0.05f){
+			SetHorizontalVelocity();
+		}
+		else{
+			movingEdge = false;
+			fallingDown = true;
+
+			velocity /= 3.0f;
+			velocity.y = 1.5f;
+		}
 	}
 }
