@@ -13,6 +13,10 @@ public class PlayerMove : TacticsMove {
 	void Update () {
 		Debug.DrawRay(transform.position, transform.forward);
 
+		if(!turn){//returns before unit can move if turn == false
+			return;
+		}
+
 		if(!moving){
 			FindSelectableTiles();
 			CheckMouse();

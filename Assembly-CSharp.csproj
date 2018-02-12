@@ -57,9 +57,11 @@
      <Compile Include="Assets\Scripts\Interactable.cs" />
      <Compile Include="Assets\Scripts\LockRot.cs" />
      <Compile Include="Assets\Scripts\NPC.cs" />
+     <Compile Include="Assets\Scripts\NPCMove.cs" />
      <Compile Include="Assets\Scripts\PickUpItem.cs" />
      <Compile Include="Assets\Scripts\PlayerMove.cs" />
      <Compile Include="Assets\Scripts\TacticsMove.cs" />
+     <Compile Include="Assets\Scripts\TurnManager.cs" />
      <Compile Include="Assets\Scripts\WorldInteraction.cs" />
      <Compile Include="Assets\Tile.cs" />
  <Reference Include="UnityEngine.UI">

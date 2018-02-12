@@ -92,7 +92,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 9ca6347af5ceb6b0d1c105af31b6722e UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
-f8ef72292fdc476fae2e44565fe135ee Assembly-CSharp.dll:.PlayerMove
+0e79c08e6add4b18dac26e9b3e54286e Assembly-CSharp.dll:.PlayerMove
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -133,8 +133,8 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
-6c36268c7b0604fefebe2c7f3ccb1a82 Assembly-CSharp.dll:.Tile
-f8ef72292fdc476fae2e44565fe135ee Assembly-CSharp.dll:.TacticsMove
+760b5a1220884d949d186d17d86febc9 Assembly-CSharp.dll:.Tile
+0e79c08e6add4b18dac26e9b3e54286e Assembly-CSharp.dll:.TacticsMove
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.WorldInteraction
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 96d0fbde9fd209878a0a291f82c9bcdd UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
@@ -150,3 +150,5 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 914cdaff0b7119d2c9b42a5ba0a4cb25 Assembly-CSharp.dll:.Interactable
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TurnManager
+0e79c08e6add4b18dac26e9b3e54286e Assembly-CSharp.dll:.NPCMove
