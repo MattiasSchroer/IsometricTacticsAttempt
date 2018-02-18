@@ -15,9 +15,11 @@ public class NPCMove : TacticsMove {
 	void Update () {
 		Debug.DrawRay(transform.position, transform.forward);
 
-		if(killed){
-			GetComponent<Renderer>().material.color = Color.black;
-		}
+		// if(killed){
+		// 	GetComponent<Renderer>().material.color = Color.black;
+		// }
+
+		CheckCover();
 
 		if(!turn || killed){//returns before unit can move if turn == false
 			return;

@@ -21,6 +21,11 @@ public class Tile : MonoBehaviour {
 	public float g = 0;
 	public float h = 0;
 
+	public int northCover = 0;
+	public int eastCover = 0;
+	public int southCover = 0;
+	public int weastCover = 0;
+
 	// Use this for initialization
 	void Start () {
 		
