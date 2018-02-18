@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TacticsMove : MonoBehaviour {
 
+	public bool killed;
+
 	public bool turn = false;
 
 	List<Tile> selectableTiles = new List<Tile>();
@@ -29,6 +31,10 @@ public class TacticsMove : MonoBehaviour {
 	public float jumpVelocity = 4.5f;
 
 	public Tile actualTargetTile;
+
+
+	public int moves = 2;
+	public int moveCount = 0;
 
 	protected void Init(){
 		tiles = GameObject.FindGameObjectsWithTag("Tile");
@@ -128,10 +134,13 @@ public class TacticsMove : MonoBehaviour {
 		}
 		else{
 			//todo: remove the selectable tiles
+
+			moveCount++;
+
 			RemoveSelectableTiles();
 			moving = false;
 
-			TurnManager.EndTurn();//todo: This will end the unit's turn when it is done moving, needs to change when combat is added
+			
 		}
 	}
 
@@ -236,6 +245,7 @@ public class TacticsMove : MonoBehaviour {
 
 	public void BeginTurn(){
 		turn = true;
+		moveCount = 0;
 	}
 
 	public void EndTurn(){
@@ -328,5 +338,10 @@ public class TacticsMove : MonoBehaviour {
 
 		//todo - what if there is no path to the target tile?
 		Debug.Log("Path not found");
+	}
+
+	public void Kill(){
+		Debug.Log("GOT EM");
+		killed = true;
 	}
 }

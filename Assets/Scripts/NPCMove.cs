@@ -15,7 +15,11 @@ public class NPCMove : TacticsMove {
 	void Update () {
 		Debug.DrawRay(transform.position, transform.forward);
 
-		if(!turn){//returns before unit can move if turn == false
+		if(killed){
+			GetComponent<Renderer>().material.color = Color.black;
+		}
+
+		if(!turn || killed){//returns before unit can move if turn == false
 			return;
 		}
 
@@ -27,6 +31,11 @@ public class NPCMove : TacticsMove {
 		}
 		else{
 			Move();
+		}
+
+		if(moveCount == moves){
+			moveCount = 0;
+			TurnManager.EndTurn();//todo: This will end the unit's turn when it is done moving, needs to change when combat is added
 		}
 	}
 
@@ -52,5 +61,5 @@ public class NPCMove : TacticsMove {
 		}
 
 		target = nearest;
-	}
+	}	
 }

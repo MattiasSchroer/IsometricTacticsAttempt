@@ -24,7 +24,9 @@ public class TurnManager : MonoBehaviour {
 		List<TacticsMove> teamList = units[turnKey.Peek()];
 
 		foreach(TacticsMove unit in teamList){
-			turnTeam.Enqueue(unit);
+			if(!unit.killed){
+				turnTeam.Enqueue(unit);
+			}
 		}
 
 		StartTurn();
