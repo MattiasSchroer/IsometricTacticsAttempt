@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : TacticsMove {
 
+
+
 	// Use this for initialization
 	void Start () {
 		Init();
@@ -12,6 +14,8 @@ public class PlayerMove : TacticsMove {
 	// Update is called once per frame
 	void Update () {
 		Debug.DrawRay(transform.position, transform.forward);
+
+		CheckCover();
 
 		if(moveCount >= moves){
 			moveCount = 0;
@@ -23,6 +27,7 @@ public class PlayerMove : TacticsMove {
 		}
 
 		if(!moving){
+			
 			FindSelectableTiles();
 			CheckMouse();
 		}
@@ -52,7 +57,8 @@ public class PlayerMove : TacticsMove {
 					NPCMove npc = hit.collider.GetComponent<NPCMove>();
 
 					if(!npc.killed){
-						npc.Kill();
+						//npc.Kill();
+						npc.Shoot(transform.position, 75, 10);
 
 						moveCount++;
 					}

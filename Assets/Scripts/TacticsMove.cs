@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TacticsMove : MonoBehaviour {
 
+	int health = 15;
+
+	public int playerNorthCover;
+	public int playerEastCover;
+	public int playerSouthCover;
+	public int playerWeastCover;
+
 	public bool killed;
 
 	public bool turn = false;
@@ -12,7 +19,7 @@ public class TacticsMove : MonoBehaviour {
 	GameObject[] tiles;
 
 	Stack<Tile> path = new Stack<Tile>();
-	Tile currentTile;
+	public Tile currentTile;
 
 	public bool moving = false;
 	public int move = 5;
@@ -343,5 +350,42 @@ public class TacticsMove : MonoBehaviour {
 	public void Kill(){
 		Debug.Log("GOT EM");
 		killed = true;
+	}
+
+	public void Shoot(Vector3 p, int acc, int dam){
+		if(p.x > transform.position.x){
+			acc = acc - playerEastCover * 25;
+		}else if(p.x < transform.position.x){
+			acc = acc - playerWeastCover * 25;
+		}else if(p.y > transform.position.y){
+			acc = acc - playerNorthCover * 25;
+		}else if(p.y < transform.position.y){
+			acc = acc - playerSouthCover * 25;
+		}
+
+		int hitCheck = Random.Range(0,100);
+
+		if(acc > hitCheck){
+			health = health - dam;
+
+			if(health <= 0){
+				Kill();
+			}
+		}
+	}
+
+	public void CheckCover(){
+		Tile CT;
+
+		RaycastHit hit;
+
+		if (Physics.Raycast(transform.position, -Vector3.up, out hit, 1.0f)){
+			CT = hit.collider.GetComponent<Tile>(); 
+
+			playerNorthCover = CT.northCover;
+			playerEastCover = CT.eastCover;
+			playerSouthCover = CT.southCover;
+			playerWeastCover = CT.weastCover;
+		}
 	}
 }
