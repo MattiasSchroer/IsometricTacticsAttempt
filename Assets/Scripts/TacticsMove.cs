@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TacticsMove : MonoBehaviour {
 
-	int health = 15;
+	int health = 50;
 
 	public int playerNorthCover;
 	public int playerEastCover;
@@ -42,6 +42,9 @@ public class TacticsMove : MonoBehaviour {
 
 	public int moves = 2;
 	public int moveCount = 0;
+
+	public GameObject[] weapons;
+	public int currentWeapon;
 
 	protected void Init(){
 		tiles = GameObject.FindGameObjectsWithTag("Tile");
@@ -352,21 +355,32 @@ public class TacticsMove : MonoBehaviour {
 		killed = true;
 	}
 
-	public void Shoot(Vector3 p, int acc, int dam){
+	public void Shoot(Vector3 p, GameObject attackerWep){//attackerWep
+
+		int calcAcc;
+
 		if(p.x > transform.position.x){
-			acc = acc - playerEastCover * 25;
+			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerEastCover * 25;
 		}else if(p.x < transform.position.x){
-			acc = acc - playerWeastCover * 25;
+			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerWeastCover * 25;
 		}else if(p.y > transform.position.y){
-			acc = acc - playerNorthCover * 25;
+			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerNorthCover * 25;
 		}else if(p.y < transform.position.y){
-			acc = acc - playerSouthCover * 25;
+			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerSouthCover * 25;
+		}else{
+			calcAcc = attackerWep.GetComponent<WeaponStats>().acc;
 		}
 
 		int hitCheck = Random.Range(0,100);
 
-		if(acc > hitCheck){
-			health = health - dam;
+		if(calcAcc > hitCheck){
+
+			if(hitCheck < attackerWep.GetComponent<WeaponStats>().crit){
+				health = health - attackerWep.GetComponent<WeaponStats>().dam * 2;
+			}
+			else{
+				health = health - attackerWep.GetComponent<WeaponStats>().dam;
+			}
 
 			if(health <= 0){
 				Kill();

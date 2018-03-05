@@ -8,6 +8,8 @@ public class PlayerMove : TacticsMove {
 
 	// Use this for initialization
 	void Start () {
+		currentWeapon = 0;
+
 		Init();
 	}
 	
@@ -16,6 +18,24 @@ public class PlayerMove : TacticsMove {
 		Debug.DrawRay(transform.position, transform.forward);
 
 		CheckCover();
+
+		if(Input.GetKey("1")){
+			currentWeapon = 0;
+		}
+
+		if(Input.GetKey("2")){
+			currentWeapon = 1;
+		}
+
+		for(int i = 0; i < weapons.Length; i++){
+			if (i != currentWeapon){
+				weapons[i].SetActive(false);
+			}
+			else{
+				weapons[i].SetActive(true);
+			}
+		}
+
 
 		if(moveCount >= moves){
 			moveCount = 0;
@@ -56,9 +76,11 @@ public class PlayerMove : TacticsMove {
 
 					NPCMove npc = hit.collider.GetComponent<NPCMove>();
 
+					Debug.Log(currentWeapon);
+
 					if(!npc.killed){
 						//npc.Kill();
-						npc.Shoot(transform.position, 75, 10);
+						npc.Shoot(transform.position, weapons[currentWeapon]);
 
 						moveCount++;
 					}
