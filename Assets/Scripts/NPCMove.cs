@@ -9,6 +9,9 @@ public class NPCMove : TacticsMove {
 	// Use this for initialization
 	void Start () {
 		Init();
+
+		anim = GetComponent<Animator>();
+
 	}
 	
 	// Update is called once per frame
@@ -26,12 +29,17 @@ public class NPCMove : TacticsMove {
 		}
 
 		if(!moving){
+			anim.Play("Run");
+
 			FindNearestTarget();
 			CalculatePath();
 			FindSelectableTiles();
 			actualTargetTile.target = true;
+
 		}
 		else{
+			anim.Play("Run");
+
 			Move();
 		}
 

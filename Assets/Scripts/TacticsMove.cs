@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TacticsMove : MonoBehaviour {
 
-	int health = 50;
+	public int health = 50;
 
 	public int playerNorthCover;
 	public int playerEastCover;
@@ -46,13 +46,24 @@ public class TacticsMove : MonoBehaviour {
 	public GameObject[] weapons;
 	public int currentWeapon;
 
+	public Animator anim;
+
+	public Health healthText;
+
+	
+
 	protected void Init(){
 		tiles = GameObject.FindGameObjectsWithTag("Tile");
 
 		halfHeight = GetComponent<Collider>().bounds.extents.y;
 
 		TurnManager.AddUnit(this);
+
+		anim = GetComponent<Animator>();
+
+		healthText = GetComponent<Health>();
 	}
+	
 
 	public void GetCurrentTile(){
 		currentTile = GetTargetTile(gameObject);
@@ -113,6 +124,10 @@ public class TacticsMove : MonoBehaviour {
 			path.Push(next);
 			next = next.parent;
 		}
+		
+		// if(next == null){
+		// 	anim.Play(weapons[currentWeapon].GetComponent<WeaponStats>().idleAnim);
+		// }
 	}
 
 	public void Move(){
@@ -351,6 +366,8 @@ public class TacticsMove : MonoBehaviour {
 	}
 
 	public void Kill(){
+		anim.Play("Death");
+
 		Debug.Log("GOT EM");
 		killed = true;
 	}
@@ -359,31 +376,46 @@ public class TacticsMove : MonoBehaviour {
 
 		int calcAcc;
 
-		if(p.x > transform.position.x){
-			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerEastCover * 25;
-		}else if(p.x < transform.position.x){
-			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerWeastCover * 25;
-		}else if(p.y > transform.position.y){
-			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerNorthCover * 25;
-		}else if(p.y < transform.position.y){
-			calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerSouthCover * 25;
-		}else{
-			calcAcc = attackerWep.GetComponent<WeaponStats>().acc;
-		}
+		for(int i = 0; i < attackerWep.GetComponent<WeaponStats>().rof; i++){
 
-		int hitCheck = Random.Range(0,100);
+			anim.Play(attackerWep.GetComponent<WeaponStats>().shootAnim);
 
-		if(calcAcc > hitCheck){
+			Debug.Log("Shooting" + attackerWep.GetComponent<WeaponStats>().shootAnim);
 
-			if(hitCheck < attackerWep.GetComponent<WeaponStats>().crit){
-				health = health - attackerWep.GetComponent<WeaponStats>().dam * 2;
-			}
-			else{
-				health = health - attackerWep.GetComponent<WeaponStats>().dam;
+			if(p.x > transform.position.x){
+				calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerEastCover * 25;
+			}else if(p.x < transform.position.x){
+				calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerWeastCover * 25;
+			}else if(p.y > transform.position.y){
+				calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerNorthCover * 25;
+			}else if(p.y < transform.position.y){
+				calcAcc = attackerWep.GetComponent<WeaponStats>().acc - playerSouthCover * 25;
+			}else{
+				calcAcc = attackerWep.GetComponent<WeaponStats>().acc;
 			}
 
-			if(health <= 0){
-				Kill();
+			int hitCheck = Random.Range(0,100);
+			int dam;
+
+			if(calcAcc > hitCheck){
+				Debug.Log("hit");
+				if(hitCheck < attackerWep.GetComponent<WeaponStats>().crit){
+
+					dam = attackerWep.GetComponent<WeaponStats>().dam *2;
+					Debug.Log("crit");
+				}
+				else{
+
+					dam = attackerWep.GetComponent<WeaponStats>().dam;
+				}
+
+				health = health - dam;
+
+				healthText.UpdateHealth(health, dam);
+
+				if(health <= 0){
+					Kill();
+				}
 			}
 		}
 	}

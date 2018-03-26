@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class PlayerMove : TacticsMove {
 
-
+	//public Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		currentWeapon = 0;
 
 		Init();
+
+		healthText.UpdateHealth(health, 0);
+
+		//anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -18,14 +22,6 @@ public class PlayerMove : TacticsMove {
 		Debug.DrawRay(transform.position, transform.forward);
 
 		CheckCover();
-
-		if(Input.GetKey("1")){
-			currentWeapon = 0;
-		}
-
-		if(Input.GetKey("2")){
-			currentWeapon = 1;
-		}
 
 		for(int i = 0; i < weapons.Length; i++){
 			if (i != currentWeapon){
@@ -37,7 +33,11 @@ public class PlayerMove : TacticsMove {
 		}
 
 
+
 		if(moveCount >= moves){
+
+			anim.Play(weapons[currentWeapon].GetComponent<WeaponStats>().idleAnim);
+
 			moveCount = 0;
 			TurnManager.EndTurn();//todo: This will end the unit's turn when it is done moving, needs to change when combat is added
 		}
@@ -46,12 +46,23 @@ public class PlayerMove : TacticsMove {
 			return;
 		}
 
+		if(Input.GetKey("1")){
+			currentWeapon = 0;
+			//anim.Play(weapons[0].GetComponent<WeaponStats>().idleAnim);
+		}
+
+		if(Input.GetKey("2")){
+			currentWeapon = 1;
+			//anim.Play(weapons[1].GetComponent<WeaponStats>().idleAnim);
+		}
+
 		if(!moving){
-			
+			anim.Play(weapons[currentWeapon].GetComponent<WeaponStats>().idleAnim);
 			FindSelectableTiles();
 			CheckMouse();
 		}
 		else{
+			//anim.Play("Run");
 			Move();
 		}
 
@@ -68,6 +79,8 @@ public class PlayerMove : TacticsMove {
 
 					if(t.selectable){
 						//todo: move target
+						anim.Play("Run");
+
 						MoveToTile(t);
 					}
 				}
@@ -82,10 +95,17 @@ public class PlayerMove : TacticsMove {
 						//npc.Kill();
 						npc.Shoot(transform.position, weapons[currentWeapon]);
 
+						transform.LookAt(npc.transform);
+
+						anim.Play(weapons[currentWeapon].GetComponent<WeaponStats>().shootAnim);
+
+
 						moveCount++;
 					}
 					if(moveCount == moves){
 						moveCount = 0;
+						anim.Play(weapons[currentWeapon].GetComponent<WeaponStats>().idleAnim);
+
 						TurnManager.EndTurn();//todo: This will end the unit's turn when it is done moving, needs to change when combat is added
 					}
 					//Destroy(npc);

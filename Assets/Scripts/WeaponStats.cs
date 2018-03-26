@@ -10,6 +10,8 @@ public class WeaponStats : MonoBehaviour {
 	public int ammo;
 	public int crit;
 	public int rof;
+	public string shootAnim;
+	public string idleAnim;
 
 	
 	// Update is called once per frame
