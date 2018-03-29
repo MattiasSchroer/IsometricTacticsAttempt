@@ -28,19 +28,28 @@ public class NPCMove : TacticsMove {
 			return;
 		}
 
-		if(!moving){
-			anim.Play("Run");
+		if(moveCount == 0){
+			if(!moving){
+				anim.Play("Run");
 
-			FindNearestTarget();
-			CalculatePath();
-			FindSelectableTiles();
-			actualTargetTile.target = true;
+				FindNearestTarget();
+				CalculatePath();
+				FindSelectableTiles();
+				actualTargetTile.target = true;
 
+			}
+			else{
+				//anim.Play("Run");
+
+				Move();
+			}
 		}
 		else{
-			anim.Play("Run");
+			GameObject[] goodGuys = getShootableTargets("Player");
 
-			Move();
+			goodGuys[0].GetComponent<TacticsMove>().Shoot(transform.position, weapons[0]);
+
+			moveCount++;
 		}
 
 		if(moveCount == moves){

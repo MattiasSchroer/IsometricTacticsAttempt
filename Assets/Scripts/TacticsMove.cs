@@ -378,7 +378,7 @@ public class TacticsMove : MonoBehaviour {
 
 		for(int i = 0; i < attackerWep.GetComponent<WeaponStats>().rof; i++){
 
-			anim.Play(attackerWep.GetComponent<WeaponStats>().shootAnim);
+			//anim.Play(attackerWep.GetComponent<WeaponStats>().shootAnim);
 
 			Debug.Log("Shooting" + attackerWep.GetComponent<WeaponStats>().shootAnim);
 
@@ -433,5 +433,30 @@ public class TacticsMove : MonoBehaviour {
 			playerSouthCover = CT.southCover;
 			playerWeastCover = CT.weastCover;
 		}
+	}
+
+	public GameObject[] getShootableTargets(string tag){
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag(tag);
+		GameObject[] shootableEnemies = new GameObject[enemies.Length]; 
+		int shootableCount = 0;
+
+		RaycastHit hit;
+
+		foreach(GameObject unit in enemies){
+			if(Physics.Raycast(transform.position, (unit.transform.position - transform.position), out hit, 10000))
+    		{
+				if(hit.transform.tag != "Wall" && !unit.GetComponent<TacticsMove>().killed){
+					shootableEnemies[shootableCount] = unit;
+					shootableCount++;
+				}
+
+				// if(hit.transform == unit)
+				// {
+				// 	// In Range and i can see you!
+				// }
+			}
+		}
+
+		return shootableEnemies;
 	}
 }

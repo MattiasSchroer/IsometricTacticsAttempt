@@ -102,12 +102,12 @@ public class PlayerMove : TacticsMove {
 
 						moveCount++;
 					}
-					if(moveCount == moves){
-						moveCount = 0;
-						anim.Play(weapons[currentWeapon].GetComponent<WeaponStats>().idleAnim);
+					// if(moveCount == moves){
+					// 	moveCount = 0;
+					// 	anim.Play(weapons[currentWeapon].GetComponent<WeaponStats>().idleAnim);
 
-						TurnManager.EndTurn();//todo: This will end the unit's turn when it is done moving, needs to change when combat is added
-					}
+					// 	TurnManager.EndTurn();//todo: This will end the unit's turn when it is done moving, needs to change when combat is added
+					// }
 					//Destroy(npc);
 				}
 			}
