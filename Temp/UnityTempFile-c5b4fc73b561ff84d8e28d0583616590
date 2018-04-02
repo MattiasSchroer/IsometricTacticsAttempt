@@ -192,6 +192,7 @@ Assets/Scripts/NPCMove.cs
 Assets/Scripts/PickUpItem.cs
 Assets/Scripts/PlayerMove.cs
 Assets/Scripts/TacticsMove.cs
+Assets/Scripts/TextRot.cs
 Assets/Scripts/TurnManager.cs
 Assets/Scripts/WeaponStats.cs
 Assets/Scripts/WorldInteraction.cs
